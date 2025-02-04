@@ -1,5 +1,5 @@
 import { usersService } from '../services/users.service';
-import { IUserDomain, IUserDTO } from '../typings/user';
+import { ICreateUserDTO, IUserDomain, IUserDTO } from '../typings/user';
 
 class UserController {
   async getUsers(): Promise<IUserDTO[]> {
@@ -11,13 +11,19 @@ class UserController {
     name = '',
     email = '',
     avatar = '',
-  }: IUserDTO): Promise<IUserDTO> {
-    // TODO: validation first
-    if (!email || !name) {
+    role = 'User',
+    password,
+  }: ICreateUserDTO): Promise<IUserDTO> {
+    if (!email || !name || !password) {
       throw new Error('Email and Name required');
     }
 
-    const createdUser = await usersService.createUser({ name, email, avatar });
+    const createdUser = await usersService.createUser({
+      name,
+      email,
+      avatar,
+      role,
+    });
 
     return this.toDTO(createdUser);
   }
@@ -27,6 +33,7 @@ class UserController {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
+      role: user.role,
     };
   }
 }
