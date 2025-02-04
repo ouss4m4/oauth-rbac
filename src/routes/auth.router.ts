@@ -50,4 +50,22 @@ authRouter.get(
   },
 );
 
+// email/password
+authRouter.post(
+  '/login',
+  passport.authenticate('local', { session: false }),
+  (req, res) => {
+    const user = req.user as any;
+    const token = user.token;
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+
+    res.redirect('/profile');
+    res.json({ success: true, user });
+  },
+);
 export { authRouter };

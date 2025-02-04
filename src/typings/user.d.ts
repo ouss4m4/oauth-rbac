@@ -12,5 +12,4 @@ export interface IUserDomain extends IUserDTO {
 
 export interface ICreateUserDTO extends IUserDTO {
   password: string;
-  confirmPassword: string;
 }

@@ -12,9 +12,14 @@ userRouter.get('/', async (req: Request, res: Response) => {
 });
 
 userRouter.post('/', async (req: Request, res: Response) => {
-  const { email, name, avatar } = req.body;
+  const { email, name, password, role = 'User' } = req.body;
   try {
-    const result = await userController.createUser({ name, email, avatar });
+    const result = await userController.createUser({
+      name,
+      email,
+      role,
+      password,
+    });
     res.json({
       success: true,
       data: result,

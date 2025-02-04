@@ -1,5 +1,5 @@
 import { IUserDocument, User } from '../db/User.model';
-import { IUserDomain } from '../typings/user';
+import { ICreateUserDTO, IUserDomain } from '../typings/user';
 
 class UserService {
   async getUsers(): Promise<IUserDomain[]> {
@@ -7,7 +7,7 @@ class UserService {
     return users.map(this.toDomain);
   }
 
-  async createUser(user: IUserDomain): Promise<IUserDomain> {
+  async createUser(user: ICreateUserDTO): Promise<IUserDomain> {
     const newUser = new User(user);
     const savedUser = await newUser.save();
     return this.toDomain(savedUser);
