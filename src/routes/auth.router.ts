@@ -16,13 +16,21 @@ authRouter.get(
   passport.authenticate('google', { session: false }),
   (req, res) => {
     const user = req.user as any;
-    res.json({ success: true, token: user.token, user: user.user });
+    const token = user.token;
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+
+    res.redirect('/profile');
   },
 );
 
 authRouter.get(
   '/github',
-  passport.authenticate('github', { scope: ['user:email'] }),
+  passport.authenticate('github', { scope: ['upser:email'] }),
 );
 
 authRouter.get(
@@ -30,7 +38,15 @@ authRouter.get(
   passport.authenticate('github', { session: false }),
   (req, res) => {
     const user = req.user as any;
-    res.json({ success: true, token: user.token, user: user.user });
+    const token = user.token;
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+
+    res.redirect('/profile');
   },
 );
 

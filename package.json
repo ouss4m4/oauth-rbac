@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx --watch --inspect --env-file=.env src/index.ts",
     "dev:debug": "tsx --watch --inspect-brk src/index.ts",
+    "build:css": "npx tailwindcss -i ./src/tailwind.css -o ./src/public/styles.css --watch",
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write ."
@@ -31,11 +32,14 @@
     "@types/passport": "^1.0.17",
     "@types/passport-github2": "^1.2.9",
     "@types/passport-google-oauth20": "^2.0.16",
+    "autoprefixer": "10.4.17",
     "eslint": "latest",
     "eslint-config-prettier": "latest",
     "eslint-plugin-prettier": "latest",
     "jest": "latest",
+    "postcss": "8.4.35",
     "prettier": "latest",
+    "tailwindcss": "3.4.1",
     "tsx": "latest",
     "typescript": "latest"
   }
