@@ -12,7 +12,7 @@ const userSchema = new Schema<IUserDocument>({
   avatar: { type: String },
   role: { type: String, enum: ['Admin', 'Editor', 'User'], default: 'User' },
   googleId: { type: String, unique: true, sparse: true },
-  githubId: { type: String, unique: true, sparse: true },
+  githubId: { type: String, unwique: true, sparse: true },
   password: { type: String },
 });
 

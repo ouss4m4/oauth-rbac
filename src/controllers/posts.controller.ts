@@ -1,12 +1,21 @@
-import { Request, Response, Router } from 'express';
+import { PostService, postsService } from '../services/posts.service';
+import { IPost, IPostDTO } from '../typings/user';
 
-const postsController = Router();
+class PostController {
+  constructor(private postsService: PostService) {}
+  async getPosts(): Promise<IPostDTO[]> {
+    const posts = await this.postsService.getPosts();
+    return posts;
+  }
 
-postsController.get('/', (req: Request, res: Response) => {
-  res.json({
-    success: true,
-    data: ['list of posts'],
-  });
-});
+  async createPost({ userId, title, content }: IPost): Promise<IPostDTO> {
+    if (!title || !content) {
+      throw new Error('Title and Content are missing');
+    }
+    let result = await this.postsService.createPost({ userId, title, content });
+    return result;
+  }
+}
 
-export { postsController };
+const postController = new PostController(postsService);
+export { postController };

@@ -1,25 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import { verify } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { AuthenticatedUser } from '../typings/user';
 
 export const authenticateJWT = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): void => {
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
+    res.status(401).json({ success: false, message: 'Unauthorized' });
+    return;
   }
 
   try {
-    const decoded = verify(token, process.env.JWT_SECRET!) as {
-      id: string;
-      role: string;
-    };
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!,
+    ) as AuthenticatedUser;
     req.user = decoded;
+    console.log();
     next();
   } catch (error) {
-    return res.status(403).json({ success: false, message: 'Invalid token' });
+    res.status(403).json({ success: false, message: 'Invalid token' });
+    return;
   }
 };
